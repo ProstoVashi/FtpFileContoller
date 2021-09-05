@@ -5,8 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FtpFileController"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+        Title="MainWindow" Height="450" Width="800"
+        Loaded="Window_Loaded">
+    <DockPanel LastChildFill="True">
+        <Menu DockPanel.Dock="Top" MinWidth="25">
+            <MenuItem Header="Ввести имя файла"></MenuItem>
+        </Menu>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="19*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Открыть файл" Command="{Binding Path=DownloadFileCommand}" Margin="25,25,25,25" Background="LightGreen" />
+                <Button Grid.Column="1" Content="Выгрузить файл" Command="{Binding Path=UploadFileCommand}" Margin="25,25,25,25" Background="LightGreen" />
+            </Grid>
+            <Grid Grid.Row="1" Background="LightGray">
+                <TextBlock x:Name="StatusTextBlock" TextAlignment="Center"/>
+            </Grid>
+        </Grid>
+    </DockPanel>
 </Window>
