@@ -2,16 +2,13 @@
 
 namespace FtpFileController.Enums {
     public enum DownloadProgressStates {
-        [Description("Упаковка файла")]
-        FileBoxing = 0,
-        
-        [Description("Отправка файла")]
-        Uploading = 1,
-     
-        [Description("Файл выгружен")]
-        Uploaded = 2,
-        
-        [Description("Временный файл удален")]
-        TempRemoved = 3
+        [Description("Получение файлового потока")]
+        StreamReceiving = 0,
+
+        [Description("Загрузка файла")]
+        Downloading = 1,
+
+        [Description("Файл загружен")]
+        Downloaded = 2
     }
 }

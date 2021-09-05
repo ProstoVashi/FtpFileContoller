@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using FtpFileController.Configs;
 using FtpFileController.Enums;
 using FtpFileController.Extensions;
-using Microsoft.Office.Interop.Excel;
 
 namespace FtpFileController.Servicies {
     public class FtpService {
@@ -15,7 +14,7 @@ namespace FtpFileController.Servicies {
         
         internal bool InProgress => _worker.IsBusy;
 
-        private readonly bool _withMacros = false;
+        private readonly bool _withMacros = true;
         private readonly FileSettings _fileSettings;
         private readonly BackgroundWorker _worker;
         private readonly ClientService _clientService;
@@ -42,9 +41,8 @@ namespace FtpFileController.Servicies {
                 WriteFileFromStream(response, tempFileName).GetAwaiter().GetResult();
                 _worker.ReportProgress(2);
                 
-                //ExcelExtensions.OpenBook(tempFileName);
-                Application excel = new ApplicationClass();
-                var wb = excel.Workbooks.Open(tempFileName);
+                ExcelExtensions.OpenBook(tempFileName);
+                
             }
 
             void HandleProgress(object sender, ProgressChangedEventArgs eventArgs) {
