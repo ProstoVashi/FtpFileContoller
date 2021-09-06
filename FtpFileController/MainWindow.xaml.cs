@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using FtpFileController.Commands;
+using FtpFileController.Middlewares;
 using FtpFileController.Servicies;
 
 namespace FtpFileController {
@@ -11,20 +12,20 @@ namespace FtpFileController {
         
         public ICommand DownloadFileCommand { get;  }
         public ICommand UploadFileCommand { get;  }
-        public ICommand OpenFileNameWindowCommand { get; }
-
-        private readonly FtpService _ftpService;
         
-        public MainWindow(FtpService ftpService) {
+        public ICommand OpenFileNameWindowCommand { get; }
+        public ICommand DeleteTempFilesCommand { get; }
+
+        public MainWindow(FtpService ftpService, MenuMiddleware menuMiddleware) {
             InitializeComponent();
             DataContext = this;
 
-            _ftpService = ftpService;
-            
-            DownloadFileCommand = new DefaultCommand(_ftpService.DownloadFile, _ => !_ftpService.InProgress && !_ftpService.TempFileExists());
-            UploadFileCommand = new DefaultCommand(_ftpService.UploadFile, _ => !_ftpService.InProgress && _ftpService.TempFileExists());
+            DownloadFileCommand = new DefaultCommand(ftpService.DownloadFile, _ => !ftpService.InProgress && !ftpService.TempFileExists());
+            UploadFileCommand = new DefaultCommand(ftpService.UploadFile, _ => !ftpService.InProgress && ftpService.TempFileExists());
+            OpenFileNameWindowCommand = new DefaultCommand(menuMiddleware.OpenEditFileNameWindowCommand);
+            DeleteTempFilesCommand = new DefaultCommand(menuMiddleware.DeleteTempFiles);
 
-            _ftpService.onProgressChanged += newStatus => StatusTextBlock.Text = newStatus;
+            ftpService.onProgressChanged += newStatus => StatusTextBlock.Text = newStatus;
         }
     }
 }

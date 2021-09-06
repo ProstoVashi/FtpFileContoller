@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using FtpFileController.Configs;
+using FtpFileController.Middlewares;
 using FtpFileController.Servicies;
+using FtpFileController.Windows;
 using ConfigReader = FtpFileController.Extensions.ConfigurationsExtensions;
 
 namespace FtpFileController.IoC {
@@ -14,6 +16,9 @@ namespace FtpFileController.IoC {
 
             builder.RegisterType<ClientService>().AsSelf().SingleInstance();
             builder.RegisterType<FtpService>().AsSelf().SingleInstance();
+            
+            builder.RegisterType<MenuMiddleware>().AsSelf().SingleInstance();
+            builder.RegisterType<EditFileNameWindow>();
             
             builder.RegisterType<MainWindow>().AsSelf().SingleInstance();
             

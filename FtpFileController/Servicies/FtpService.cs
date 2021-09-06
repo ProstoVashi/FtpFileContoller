@@ -9,7 +9,6 @@ using FtpFileController.Extensions;
 
 namespace FtpFileController.Servicies {
     public class FtpService {
-
         internal event Action<string> onProgressChanged;
         
         internal bool InProgress => _worker.IsBusy;

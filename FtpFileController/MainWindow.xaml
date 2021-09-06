@@ -5,10 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FtpFileController"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Главный экран" Height="576" Width="1024"
+        WindowState="Maximized" WindowStyle="ToolWindow">
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top" MinWidth="25">
-            <MenuItem Header="Ввести имя файла"></MenuItem>
+            <MenuItem Header="Настройки">
+                <MenuItem Header="Ввести имя файла" Command="{Binding Path=OpenFileNameWindowCommand}"/>
+                <MenuItem Header="Удалить все временные файлы" Command="{Binding Path=DeleteTempFilesCommand}" />
+            </MenuItem>
         </Menu>
         <Grid>
             <Grid.RowDefinitions>
