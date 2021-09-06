@@ -1,25 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using FtpFileController.Commands;
+using FtpFileController.Middlewares;
+using FtpFileController.Servicies;
 
 namespace FtpFileController {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
-        public MainWindow() {
+        
+        public ICommand DownloadFileCommand { get;  }
+        public ICommand UploadFileCommand { get;  }
+        
+        public ICommand OpenFileNameWindowCommand { get; }
+        public ICommand DeleteTempFilesCommand { get; }
+
+        public MainWindow(FtpService ftpService, MenuMiddleware menuMiddleware) {
             InitializeComponent();
+            DataContext = this;
+
+            DownloadFileCommand = new DefaultCommand(ftpService.DownloadFile, _ => !ftpService.InProgress && !ftpService.TempFileExists());
+            UploadFileCommand = new DefaultCommand(ftpService.UploadFile, _ => !ftpService.InProgress && ftpService.TempFileExists());
+            OpenFileNameWindowCommand = new DefaultCommand(menuMiddleware.OpenEditFileNameWindowCommand);
+            DeleteTempFilesCommand = new DefaultCommand(menuMiddleware.DeleteTempFiles);
+
+            ftpService.onProgressChanged += newStatus => StatusTextBlock.Text = newStatus;
         }
     }
 }
